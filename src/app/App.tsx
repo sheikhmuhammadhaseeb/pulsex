@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { GlassCard } from './components/GlassCard';
 import { GlassButton } from './components/GlassButton';
-import { Brain, Phone, Target, Zap, Dumbbell, TrendingUp, Users, Mail, Linkedin, Twitter } from 'lucide-react';
+import { Brain, Phone, Target, Zap, Dumbbell, TrendingUp, Users, Mail, Linkedin, Twitter, MessageCircle, Lock } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export default function App() {
@@ -9,19 +9,26 @@ export default function App() {
 
   const services = [
     {
+      icon: MessageCircle,
+      title: 'WhatsApp Handover App',
+      description: 'Seamlessly transition between AI and human agents. Smart routing ensures complex inquiries reach the right person while AI handles routine queries instantly.',
+      price: 'Starting from $40/USD',
+      comingSoon: false,
+      link: 'https://wa.me/923440536408',
+    },
+    {
       icon: Phone,
       title: 'AI Receptionist',
       description: 'Never miss a call. Our AI handles inquiries 24/7, schedules appointments, and provides instant customer support with human-like conversations.',
+      comingSoon: true,
+      link: 'https://wa.me/923440536408',
     },
     {
       icon: Target,
       title: 'Lead Generation',
-      description: 'Convert visitors into qualified leads automatically. Smart chatbots engage prospects, capture data, and nurture them through your sales funnel.',
-    },
-    {
-      icon: Zap,
-      title: 'Smart CRM Integration',
-      description: 'Seamlessly sync customer data across platforms. Automate workflows, track interactions, and gain actionable insights with AI-powered analytics.',
+      description: 'Automated outreach that converts. AI-powered campaigns identify prospects, personalize messaging, and nurture leads through intelligent touchpoints.',
+      comingSoon: true,
+      link: 'https://wa.me/923440536408',
     },
   ];
 
@@ -191,12 +198,47 @@ export default function App() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
             >
-              <GlassCard className="p-8 h-full">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-400/20 to-purple-600/20 flex items-center justify-center mb-6 border border-cyan-400/30">
-                  <service.icon className="w-8 h-8 text-cyan-400" />
+              <GlassCard className={`p-8 h-full relative ${service.comingSoon ? 'opacity-60' : ''}`}>
+                {/* Coming Soon Badge */}
+                {service.comingSoon && (
+                  <div className="absolute top-4 right-4 z-20">
+                    <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-gray-900/80 backdrop-blur-sm border border-red-500/50">
+                      <Lock className="w-4 h-4 text-red-500" />
+                      <span className="text-xs font-bold text-red-500 tracking-wide">COMING SOON</span>
+                    </div>
+                  </div>
+                )}
+                
+                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${service.comingSoon ? 'from-red-500/20 to-red-600/20 border-red-500/30' : 'from-red-500/20 to-red-600/20 border-red-500/40'} flex items-center justify-center mb-6 border`}>
+                  <service.icon className={`w-8 h-8 ${service.comingSoon ? 'text-red-400/60' : 'text-red-500'}`} />
                 </div>
+                
                 <h3 className="text-2xl font-bold mb-4" style={{ fontFamily: 'Sora, sans-serif' }}>{service.title}</h3>
-                <p className="text-gray-300 leading-relaxed">{service.description}</p>
+                <p className="text-gray-300 leading-relaxed mb-4">{service.description}</p>
+                
+                {service.price && (
+                  <div className="mb-4">
+                    <span className="inline-block px-4 py-2 rounded-full bg-red-500/10 border border-red-500/30 text-red-400 font-semibold">
+                      {service.price}
+                    </span>
+                  </div>
+                )}
+                
+                {service.link && (
+                  <a 
+                    href={service.link} 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-full backdrop-blur-sm border transition-all duration-300 group mt-4 ${
+                      service.comingSoon 
+                        ? 'bg-white/5 border-white/20 text-gray-400 hover:bg-white/10 hover:border-white/30' 
+                        : 'bg-red-500/10 border-red-500/30 text-red-400 hover:bg-red-500/20 hover:border-red-500/50 hover:shadow-[0_0_20px_rgba(239,68,68,0.4)]'
+                    }`}
+                  >
+                    <span className="font-semibold">Learn More</span>
+                    <MessageCircle className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                  </a>
+                )}
               </GlassCard>
             </motion.div>
           ))}
